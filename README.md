@@ -1,1 +1,1 @@
-# Blank-Slate
+# Blank Slate
