@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "db:migrate": "bun x drizzle-kit push",
+    "db:studio": "bun x drizzle-kit studio",
     "db:seed": "bun app/db/seed.ts",
     "dev": "next dev",
     "build": "next build",
@@ -21,6 +23,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.3.1",
     "drizzle-kit": "^0.31.9",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",

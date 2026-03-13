@@ -1,7 +1,7 @@
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
-import * as schema from "./schema";
 import starterPrompts from "./starterPrompts";
+import * as schema from "./schema";
 
 // Bun automatically loads .env.local, so process.env.DATABASE_URL will be available
 const sql = neon(process.env.DATABASE_URL!);
