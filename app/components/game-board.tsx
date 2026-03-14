@@ -7,7 +7,6 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { submitAnswerAction } from "@/actions/submitAnswerAction";
 import { Button } from "@/components/ui/button";
-import { SubmittedState } from "@/components/submitted-state";
 
 interface Player {
   id: number;
@@ -107,18 +106,6 @@ export function GameBoard({
           </Card>
         </div>
       </div>
-      
-      <div className="lg:col-span-2 order-2 lg:order-1">
-        {isSubmitted ? (
-          <SubmittedState word={submittedWord} playerName={currentPlayerName} />
-        ) : (
-          <form action={handleFormSubmit}>
-            <GameCard prompt={prompt} isSubmitted={false} />
-            <Button type="submit" className="...">SUBMIT WORD</Button>
-          </form>
-        )}
-      </div>
-
     </div>
   );
 }
