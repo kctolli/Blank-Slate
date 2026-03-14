@@ -3,16 +3,16 @@
 import { startGameAction } from "@/actions/startGameAction";
 import { Button } from "@/components/ui/button";
 import { useFormStatus } from "react-dom";
-import { Play } from "lucide-react"; // Nice icon from the Nova preset
+import { Play } from "lucide-react";
 
 interface StartGameProps {
   gameId: string;
   isHost: boolean;
   playerCount: number;
+  currentPlayerId: number; // Add this!
 }
 
-export function StartGameButton({ gameId, isHost, playerCount }: StartGameProps) {
-  // If not the host, show a waiting message instead
+export function StartGameButton({ gameId, isHost, playerCount, currentPlayerId }: StartGameProps) {
   if (!isHost) {
     return (
       <div className="bg-amber-50 border border-amber-200 p-4 rounded-lg text-center">
@@ -26,9 +26,14 @@ export function StartGameButton({ gameId, isHost, playerCount }: StartGameProps)
     );
   }
 
+  // The "action" attribute can take a bound function
+  // This is where we inject the arguments the server needs
+  const startGameWithId = startGameAction.bind(null, gameId, currentPlayerId);
+
   return (
     <div className="flex flex-col items-center gap-4 w-full">
-      <form action={() => startGameAction(gameId)} className="w-full">
+      {/* We use the bound function here */}
+      <form action={startGameWithId} className="w-full">
         <SubmitButton disabled={playerCount < 3} />
       </form>
       

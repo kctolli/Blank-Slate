@@ -3,7 +3,7 @@
 import { usePolling } from "@/hooks/use-polling";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Trophy, Users, Hash, layers } from "lucide-react";
+import { Trophy, Users, Hash, Layers } from "lucide-react";
 
 interface Player {
   id: number;

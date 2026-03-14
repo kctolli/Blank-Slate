@@ -11,7 +11,7 @@ import { ResultsView } from "@/components/results-view";
 import { StartGameButton } from "@/components/start-game-button";
 import { SubmittedState } from "@/components/submitted-state";
 import { GameRefreshHandler } from "@/components/game-refresh-handler";
-import { Badge } from "@/components/ui/badge"; // Ensure this is imported
+import { Badge } from "@/components/ui/badge";
 
 export default async function GameRoomPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -121,7 +121,7 @@ export default async function GameRoomPage({ params }: { params: Promise<{ id: s
 
           {/* This button only enables/shows for the Host */}
           <div className="pt-4">
-            <StartGameButton gameId={gameId} isHost={isHost} playerCount={game.players.length} />
+            <StartGameButton gameId={gameId} isHost={isHost} playerCount={game.players.length} currentPlayerId={currentPlayer.id} />
           </div>
         </div>
       ) : isRoundOver ? (
@@ -148,6 +148,7 @@ export default async function GameRoomPage({ params }: { params: Promise<{ id: s
               players={game.players}
               currentPlayerId={currentPlayer.id}
               hasSubmitted={false}
+              currentPlayerName={currentPlayer.name}
             />
           )}
         </div>

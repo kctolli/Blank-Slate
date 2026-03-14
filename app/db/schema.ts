@@ -9,8 +9,9 @@ export const prompts = pgTable("prompts", {
 
 export const games = pgTable("games", {
   id: text("id").primaryKey(), // 4-letter room code
-  status: text("status").$type<"waiting" | "playing" | "finished">().default("waiting").notNull(),
+  status: text("status").$type<"waiting" | "playing" | "scoring" | "finished">().default("waiting").notNull(),
   currentPromptId: integer("current_prompt_id").references(() => prompts.id),
+  roundNumber: integer("round_number").default(1),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

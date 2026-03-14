@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { submitAnswerAction } from "@/actions/submitAnswerAction";
 import { Button } from "@/components/ui/button";
+import { SubmittedState } from "@/components/submitted-state";
 
 interface Player {
   id: number;
@@ -21,6 +22,7 @@ interface GameBoardProps {
   players: Player[];
   currentPlayerId: number;
   hasSubmitted: boolean;
+  currentPlayerName: string;
 }
 
 export function GameBoard({
@@ -30,12 +32,13 @@ export function GameBoard({
   players,
   currentPlayerId,
   hasSubmitted: initialSubmitted,
+  currentPlayerName
 }: GameBoardProps) {
   usePolling(3000);
 
   const [isSubmitted, setIsSubmitted] = useState(initialSubmitted);
   const [submittedWord, setSubmittedWord] = useState<string>("");
-
+  
   async function handleFormSubmit(formData: FormData) {
     const word = formData.get("word") as string;
     if (!word) return;
