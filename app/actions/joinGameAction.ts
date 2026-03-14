@@ -5,12 +5,14 @@ import { players } from "@/db/schema";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
-export async function joinGameAction(formData: FormData) {
+// 1. Add 'prevState' as the first parameter
+export async function joinGameAction(prevState: any, formData: FormData) {
   const name = formData.get("name") as string;
   const gameId = formData.get("roomCode") as string;
 
-  // 1. Validation check
-  if (!name || !gameId) return { error: "Name and Room Code are required" };
+  if (!name || !gameId) {
+    return { error: "Name and Room Code are required" };
+  }
 
   const formattedGameId = gameId.toUpperCase().trim();
   let success = false;
@@ -20,6 +22,8 @@ export async function joinGameAction(formData: FormData) {
       .values({
         gameId: formattedGameId,
         name: name.trim(),
+        // Since you implemented metadata, ensure 'role' is set to 'player'
+        role: "player" 
       })
       .onConflictDoUpdate({
         target: [players.gameId, players.name],
@@ -37,18 +41,17 @@ export async function joinGameAction(formData: FormData) {
       sameSite: 'lax',
     });
 
-    success = true; // Mark as successful
+    success = true; 
   } catch (error) {
-    // Check if this is a Next.js redirect error and re-throw it if so
     if ((error as any).digest?.startsWith('NEXT_REDIRECT')) {
       throw error;
     }
     
     console.error("Join Error:", error);
-    return { error: "Failed to join game database." };
+    // Explicit return for the joinState.error in your login page
+    return { error: "Failed to join game. Check your code and try again." };
   }
 
-  // 3. Final Redirect
   if (success) {
     redirect(`/game/${formattedGameId}`);
   }

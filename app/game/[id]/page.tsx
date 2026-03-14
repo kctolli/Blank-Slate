@@ -58,14 +58,14 @@ export default async function GameRoomPage({ params }: { params: Promise<{ id: s
     where: and(
       eq(answers.gameId, gameId),
       eq(answers.playerId, currentPlayer.id),
-      eq(answers.roundNumber, game.roundNumber)
+      eq(answers.roundNumber, game.roundNumber ?? 1)
     ),
   });
 
   const allAnswers = await db.query.answers.findMany({
     where: and(
       eq(answers.gameId, gameId),
-      eq(answers.roundNumber, game.roundNumber)
+      eq(answers.roundNumber, game.roundNumber ?? 1)
     ),
   });
 
@@ -143,7 +143,7 @@ export default async function GameRoomPage({ params }: { params: Promise<{ id: s
           ) : (
             <GameBoard
               gameId={gameId}
-              roundNumber={game.roundNumber}
+              roundNumber={game.roundNumber ?? 1}
               prompt={game.currentPrompt?.text || "_____"}
               players={game.players}
               currentPlayerId={currentPlayer.id}
