@@ -1,10 +1,11 @@
 "use client";
 
+import { useActionState } from "react"; // Add this
+import { nextRoundAction } from "@/actions/nextRoundAction";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Users, Star, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { nextRoundAction } from "@/actions/nextRoundAction";
 
 interface RoundResult {
   word: string;
@@ -19,6 +20,9 @@ interface ResultsViewProps {
 }
 
 export function ResultsView({ gameId, results, isHost }: ResultsViewProps) {
+  const nextRoundWithId = nextRoundAction.bind(null, gameId);
+  const [state, dispatch, isPending] = useActionState(nextRoundWithId, null);
+
   return (
     <div className="max-w-3xl mx-auto space-y-6 animate-in fade-in zoom-in duration-500">
       <div className="text-center space-y-2">
@@ -75,13 +79,16 @@ export function ResultsView({ gameId, results, isHost }: ResultsViewProps) {
         ))}
       </div>
 
-      {/* Host Controls */}
       {isHost && (
         <div className="pt-6">
-          <form action={() => nextRoundAction(gameId)}>
-            <Button size="lg" className="w-full h-16 text-xl font-bold bg-slate-900 hover:bg-black shadow-xl group">
-              NEXT ROUND
-              <ArrowRight className="ml-2 h-6 w-6 transition-transform group-hover:translate-x-1" />
+          <form action={dispatch}>
+            <Button 
+              size="lg" 
+              disabled={isPending}
+              className="w-full h-16 text-xl font-bold bg-slate-900 hover:bg-black shadow-xl group"
+            >
+              {isPending ? "Loading..." : "NEXT ROUND"}
+              {!isPending && <ArrowRight className="ml-2 h-6 w-6 transition-transform group-hover:translate-x-1" />}
             </Button>
           </form>
         </div>
